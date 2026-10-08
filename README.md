@@ -3,10 +3,7 @@
 Núcleo de **autenticação e autorização** construído com **Spring Boot 4, Spring Security, Thymeleaf e MongoDB Atlas**.
 Foi pensado para ser reaproveitado: identidade, segurança, sessão e aparência ficam em módulos independentes,
 de modo que o sistema possa virar a base de outro projeto (como o PFC) trocando textos, tema e
-acrescentando funcionalidades — sem reescrever a lógica central.
-
-> Projeto individual da disciplina — Universidade de Mogi das Cruzes (UMC).
-> Autor: **André Novaes da Silva Junior**
+acrescentando funcionalidades, sem reescrever a lógica central.
 
 ---
 
