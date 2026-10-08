@@ -2,8 +2,7 @@
 
 Núcleo de **autenticação e autorização** construído com **Spring Boot 4, Spring Security, Thymeleaf e MongoDB Atlas**.
 Foi pensado para ser reaproveitado: identidade, segurança, sessão e aparência ficam em módulos independentes,
-de modo que o sistema possa virar a base de outro projeto (como o PFC) trocando textos, tema e
-acrescentando funcionalidades, sem reescrever a lógica central.
+de modo que o sistema possa virar a base de outro projeto.
 
 ---
 
@@ -230,33 +229,3 @@ O visitante escolhe o tema no seletor do cabeçalho; a escolha fica num cookie. 
 | Criar telas novas para um perfil | Novo pacote (ex.: `turma/`) + rota sob `/area`, `/gestao` ou `/admin` |
 | Guardar dados específicos do usuário | Novo documento que referencia `Conta.id` — sem alterar `Conta` |
 | Adicionar um quarto perfil | Novo valor em `Papel`, uma linha na hierarquia e o rótulo em `messages.properties` |
-
-## Decisões de segurança
-
-| Ameaça | Mitigação |
-|---|---|
-| Vazamento de senhas | BCrypt custo 12 via `DelegatingPasswordEncoder` (prefixo `{bcrypt}` permite migrar de algoritmo); hash descartado da sessão após o login |
-| Senhas fracas | `@SenhaForte`: 10–64 caracteres, maiúscula, minúscula, número, símbolo, sem espaço; não pode conter o e-mail |
-| Força bruta | Bloqueio temporário após N falhas, com contador atômico (`$inc`) no MongoDB |
-| Enumeração de contas | Mensagem de erro de login única para qualquer causa |
-| Sequestro de sessão | Cookie `HttpOnly` + `SameSite=Strict` (+ `Secure` em produção); novo id de sessão a cada login |
-| Sessões órfãs | Revogação automática ao trocar senha, mudar perfil ou desativar conta |
-| CSRF | Token obrigatório em todo POST (injetado pelo Thymeleaf) |
-| XSS / clickjacking | Escape automático do Thymeleaf; CSP sem scripts/estilos inline; `frame-ancestors 'none'` |
-| Open redirect | Destinos de redirecionamento validados (apenas caminhos internos) |
-| Escalada de privilégio | Cadastro público só cria MEMBRO; checagem por URL **e** por método |
-| Segredos no Git | Credenciais apenas em variáveis de ambiente / `.env` ignorado |
-
-## Fluxo de trabalho (Gitflow)
-
-| Branch | Uso |
-|---|---|
-| `main` | Somente versões publicadas (tags `vX.Y.Z`) |
-| `develop` | Integração das funcionalidades |
-| `feature/*` | Uma funcionalidade por branch, criada a partir de `develop` |
-| `release/*` | Preparação de versão (ajustes finais e número de versão) |
-| `hotfix/*` | Correções urgentes a partir de `main` |
-
-Todos os merges usam `--no-ff`, preservando no histórico onde cada funcionalidade começou e terminou.
-Mensagens de commit seguem o padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/).
-
