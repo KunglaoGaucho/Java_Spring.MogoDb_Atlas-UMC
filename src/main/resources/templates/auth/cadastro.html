@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Criar conta</title></head>
+<body>
+<section layout:fragment="conteudo" class="caixa-auth">
+    <h1>Criar conta</h1>
+    <p class="suave">Novas contas começam com o perfil <strong th:text="#{papel.MEMBRO}">Membro</strong>.
+        <span th:if="${!#strings.isEmpty(dominioPermitido)}">Somente e-mails <strong th:text="'@' + ${dominioPermitido}">@dominio</strong>.</span>
+    </p>
+
+    <form th:action="@{/cadastro}" th:object="${form}" method="post" class="formulario" novalidate>
+        <p class="alerta alerta--erro" role="alert" th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}">erro</p>
+        <div th:replace="~{fragmentos/campos :: texto('nome', 'Nome completo', 'text', 'name')}"></div>
+        <div th:replace="~{fragmentos/campos :: texto('email', 'E-mail', 'email', 'email')}"></div>
+        <div th:replace="~{fragmentos/campos :: senha('senha', 'Senha', 'new-password')}"></div>
+        <ul class="requisitos" data-requisitos-de="senha">
+            <li data-regra="tamanho">10 a 64 caracteres</li>
+            <li data-regra="maiuscula">Uma letra maiúscula</li>
+            <li data-regra="minuscula">Uma letra minúscula</li>
+            <li data-regra="numero">Um número</li>
+            <li data-regra="simbolo">Um símbolo</li>
+        </ul>
+        <div th:replace="~{fragmentos/campos :: senha('confirmacaoSenha', 'Confirme a senha', 'new-password')}"></div>
+
+        <div class="campo campo--check" th:classappend="${#fields.hasErrors('aceiteTermos')} ? 'campo--erro'">
+            <label><input type="checkbox" th:field="*{aceiteTermos}"> Li e aceito os termos de uso.</label>
+            <small class="campo__erro" th:if="${#fields.hasErrors('aceiteTermos')}" th:errors="*{aceiteTermos}">erro</small>
+        </div>
+        <button type="submit" class="botao botao--largo">Criar conta</button>
+    </form>
+    <p class="rodape-form">Já tem conta? <a th:href="@{/entrar}">Entrar</a></p>
+</section>
+</body>
+</html>

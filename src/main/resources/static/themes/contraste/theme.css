@@ -1,0 +1,40 @@
+/* Tema "Alto contraste" — acessibilidade (WCAG AAA nas cores de texto). */
+:root {
+    color-scheme: light;
+    --fonte-base: Verdana, Tahoma, system-ui, sans-serif;
+    --fonte-titulo: Verdana, Tahoma, system-ui, sans-serif;
+    --fonte-mono: Consolas, "Courier New", monospace;
+    --raio-pequeno: 0;
+    --raio: 0;
+    --raio-grande: 0;
+    --sombra: none;
+
+    --cor-fundo: #ffffff;
+    --cor-topo: #ffffff;
+    --cor-superficie: #ffffff;
+    --cor-superficie-2: #f0f0f0;
+    --cor-campo: #ffffff;
+    --cor-borda: #000000;
+    --cor-borda-forte: #000000;
+    --cor-texto: #000000;
+    --cor-texto-suave: #1a1a1a;
+    --cor-link: #0000b3;
+    --cor-foco: #ff8c00;
+
+    --cor-primaria: #000000;
+    --cor-primaria-forte: #0000b3;
+    --cor-primaria-suave: #ffe066;
+    --cor-sobre-primaria: #ffffff;
+
+    --cor-sucesso: #004d00;
+    --cor-sucesso-fundo: #e6ffe6;
+    --cor-perigo: #990000;
+    --cor-perigo-forte: #660000;
+    --cor-perigo-fundo: #ffe6e6;
+
+    --cor-papel-admin: #ffffff;      --cor-papel-admin-fundo: #660033;
+    --cor-papel-gestor: #000000;     --cor-papel-gestor-fundo: #ffd000;
+    --cor-papel-membro: #ffffff;     --cor-papel-membro-fundo: #003399;
+}
+a { text-decoration: underline; }
+.menu a.ativo { text-decoration: underline; outline: 2px solid #000; }

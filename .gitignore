@@ -1,0 +1,27 @@
+# Build
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Segredos locais
+.env
+*.env.local
+src/main/resources/application-local.yml
+
+# Documentação e capturas locais (entregues fora do repositório)
+docs/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+nbproject/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log

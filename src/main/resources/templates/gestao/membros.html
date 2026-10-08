@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Gestão</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <header class="cabecalho-pagina">
+        <p class="sobretitulo">Painel do <span th:text="#{papel.GESTOR}">Gestor</span></p>
+        <h1 th:text="#{papel.MEMBRO} + 's'">Membros</h1>
+        <p class="suave"><strong th:text="${totalAtivos}">0</strong> ativos de <strong th:text="${#lists.size(membros)}">0</strong>.</p>
+    </header>
+
+    <div class="cartao cartao--tabela">
+        <p class="vazio" th:if="${#lists.isEmpty(membros)}">Nenhum membro cadastrado ainda.</p>
+        <table class="tabela" th:unless="${#lists.isEmpty(membros)}">
+            <thead><tr><th>Nome</th><th>E-mail</th><th>Último acesso</th><th>Status</th><th><span class="sr-only">Ações</span></th></tr></thead>
+            <tbody>
+            <tr th:each="m : ${membros}">
+                <td th:text="${m.nome}">Nome</td>
+                <td th:text="${m.email}">email</td>
+                <td th:text="${@datas.formatar(m.ultimoAcesso)}">—</td>
+                <td><span class="status" th:classappend="${m.ativa} ? 'status--ok' : 'status--off'"
+                          th:text="${m.ativa} ? 'Ativa' : 'Inativa'">Ativa</span></td>
+                <td class="acoes-linha">
+                    <form th:action="@{/gestao/membros/{id}/status(id=${m.id})}" method="post">
+                        <input type="hidden" name="ativa" th:value="${!m.ativa}">
+                        <button type="submit" class="botao botao--pequeno"
+                                th:classappend="${m.ativa} ? 'botao--perigo' : ''"
+                                th:text="${m.ativa} ? 'Desativar' : 'Reativar'">Desativar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Administração</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <header class="cabecalho-pagina cabecalho-pagina--acoes">
+        <div>
+            <p class="sobretitulo">Administração</p>
+            <h1>Contas</h1>
+        </div>
+        <a class="botao" th:href="@{/admin/contas/nova}">+ Nova conta</a>
+    </header>
+
+    <nav class="filtros" aria-label="Filtrar por perfil">
+        <a th:href="@{/admin/contas}" th:classappend="${filtro == null} ? 'ativo'">Todas <span th:text="${total}">0</span></a>
+        <a th:each="p : ${papeis}" th:href="@{/admin/contas(papel=${p})}" th:classappend="${filtro == p} ? 'ativo'">
+            <th:block th:text="#{${'papel.' + p}}">Papel</th:block> <span th:text="${porPapel[p]}">0</span>
+        </a>
+    </nav>
+
+    <div class="cartao cartao--tabela">
+        <p class="vazio" th:if="${#lists.isEmpty(contas)}">Nenhuma conta neste filtro.</p>
+        <table class="tabela" th:unless="${#lists.isEmpty(contas)}">
+            <thead><tr><th>Nome</th><th>Perfil</th><th>Status</th><th>Último acesso</th><th><span class="sr-only">Ações</span></th></tr></thead>
+            <tbody>
+            <tr th:each="c : ${contas}" th:with="eu=${c.id == #authentication.principal.id}">
+                <td>
+                    <strong th:text="${c.nome}">Nome</strong> <em class="suave" th:if="${eu}">(você)</em>
+                    <div class="suave pequeno" th:text="${c.email}">email</div>
+                </td>
+                <td>
+                    <form th:action="@{/admin/contas/{id}/papel(id=${c.id})}" method="post" class="inline" data-auto-enviar
+                          th:unless="${eu}">
+                        <label class="sr-only" th:for="'papel-' + ${c.id}">Perfil</label>
+                        <select name="papel" th:id="'papel-' + ${c.id}">
+                            <option th:each="p : ${papeis}" th:value="${p}" th:selected="${p == c.papel}"
+                                    th:text="#{${'papel.' + p}}">Papel</option>
+                        </select>
+                        <button type="submit" class="botao botao--pequeno js-oculto">Salvar</button>
+                    </form>
+                    <span th:if="${eu}" class="selo" th:classappend="'selo--' + ${#strings.toLowerCase(c.papel)}"
+                          th:text="#{${'papel.' + c.papel}}">Papel</span>
+                </td>
+                <td>
+                    <span class="status" th:classappend="${c.ativa} ? 'status--ok' : 'status--off'"
+                          th:text="${c.ativa} ? 'Ativa' : 'Inativa'">Ativa</span>
+                    <span class="status status--alerta" th:if="${c.estaBloqueada(agora)}"
+                          th:title="'Até ' + ${@datas.formatar(c.bloqueadaAte)}">Bloqueada</span>
+                </td>
+                <td th:text="${@datas.formatar(c.ultimoAcesso)}">—</td>
+                <td class="acoes-linha">
+                    <form th:if="${c.estaBloqueada(agora)}" th:action="@{/admin/contas/{id}/desbloquear(id=${c.id})}" method="post">
+                        <button type="submit" class="botao botao--pequeno botao--fantasma">Desbloquear</button>
+                    </form>
+                    <form th:unless="${eu}" th:action="@{/admin/contas/{id}/status(id=${c.id})}" method="post">
+                        <input type="hidden" name="ativa" th:value="${!c.ativa}">
+                        <button type="submit" class="botao botao--pequeno"
+                                th:classappend="${c.ativa} ? 'botao--perigo' : ''"
+                                th:text="${c.ativa} ? 'Desativar' : 'Reativar'">Desativar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

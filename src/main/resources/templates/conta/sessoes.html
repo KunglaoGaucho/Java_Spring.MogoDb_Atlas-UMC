@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Sessões</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <header class="cabecalho-pagina cabecalho-pagina--acoes">
+        <div>
+            <p class="sobretitulo">Segurança</p>
+            <h1>Sessões ativas</h1>
+            <p class="suave">Sessões guardadas no MongoDB Atlas. Encerre as que você não reconhece.</p>
+        </div>
+        <form th:action="@{/conta/sessoes/encerrar-outras}" method="post" th:if="${#lists.size(sessoes) > 1}">
+            <button type="submit" class="botao botao--perigo">Encerrar todas as outras</button>
+        </form>
+    </header>
+
+    <div class="cartao cartao--tabela">
+        <table class="tabela">
+            <thead><tr><th>Sessão</th><th>Iniciada</th><th>Última atividade</th><th>Expira</th><th><span class="sr-only">Ações</span></th></tr></thead>
+            <tbody>
+            <tr th:each="s : ${sessoes}">
+                <td><code th:text="${s.idCurto} + '…'">abc</code>
+                    <span class="status status--ok" th:if="${s.atual}">Esta sessão</span></td>
+                <td th:text="${@datas.formatar(s.criadaEm)}">—</td>
+                <td th:text="${@datas.formatar(s.ultimoAcesso)}">—</td>
+                <td th:text="${@datas.formatar(s.expiraEm)}">—</td>
+                <td class="acoes-linha">
+                    <form th:unless="${s.atual}" th:action="@{/conta/sessoes/{id}/revogar(id=${s.id})}" method="post">
+                        <button type="submit" class="botao botao--pequeno botao--perigo">Encerrar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

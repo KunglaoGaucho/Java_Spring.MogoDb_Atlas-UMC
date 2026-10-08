@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<form th:fragment="seletor" th:action="@{/tema}" method="post" class="seletor-tema" data-auto-enviar>
+    <input type="hidden" name="voltar" th:value="${rotaAtual}">
+    <label class="sr-only" for="seletor-tema" th:text="#{tema.rotulo}">Tema</label>
+    <select id="seletor-tema" name="id">
+        <option th:each="t : ${temas}" th:value="${t.id}" th:text="${t.rotulo}"
+                th:selected="${t.id == tema}">Tema</option>
+    </select>
+    <button type="submit" class="botao botao--pequeno js-oculto" th:text="#{tema.aplicar}">Aplicar</button>
+</form>
+</body>
+</html>

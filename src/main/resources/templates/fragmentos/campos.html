@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--
+  Campos de formulário reutilizáveis. Cada um já mostra a mensagem de
+  validação e marca o input com aria-invalid quando há erro.
+  Uso: <div th:replace="~{fragmentos/campos :: texto('nome', 'Nome completo', 'text', 'name')}"></div>
+  (precisa estar dentro de um <form th:object="...">)
+-->
+<div th:fragment="texto(campo, rotulo, tipo, autocomplete)" class="campo"
+     th:classappend="${#fields.hasErrors(campo)} ? 'campo--erro'">
+    <label th:for="${campo}" th:text="${rotulo}">Rótulo</label>
+    <input th:type="${tipo}" th:id="${campo}" th:name="${campo}" th:value="*{__${campo}__}"
+           th:attr="autocomplete=${autocomplete},
+           aria-invalid=${#fields.hasErrors(campo)}, aria-describedby=${campo + '-erro'}" required>
+    <small class="campo__erro" th:id="${campo + '-erro'}" th:if="${#fields.hasErrors(campo)}"
+           th:errors="*{__${campo}__}">erro</small>
+</div>
+
+<div th:fragment="senha(campo, rotulo, autocomplete)" class="campo"
+     th:classappend="${#fields.hasErrors(campo)} ? 'campo--erro'">
+    <label th:for="${campo}" th:text="${rotulo}">Senha</label>
+    <div class="campo__senha">
+        <input type="password" th:id="${campo}" th:name="${campo}" th:attr="autocomplete=${autocomplete},
+               aria-invalid=${#fields.hasErrors(campo)}, aria-describedby=${campo + '-erro'}" required>
+        <button type="button" class="botao-icone" data-alternar-senha th:attr="aria-controls=${campo}"
+                aria-label="Mostrar senha">👁</button>
+    </div>
+    <small class="campo__erro" th:id="${campo + '-erro'}" th:if="${#fields.hasErrors(campo)}"
+           th:errors="*{__${campo}__}">erro</small>
+</div>
+</body>
+</html>

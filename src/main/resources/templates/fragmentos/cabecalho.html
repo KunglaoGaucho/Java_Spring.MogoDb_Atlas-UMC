@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="cabecalho" class="topo">
+    <div class="container topo__linha">
+        <a class="marca" th:href="@{/}">
+            <span class="marca__icone" aria-hidden="true">◆</span>
+            <span class="marca__nome" th:text="${marca.nome}">Sentinela</span>
+        </a>
+
+        <nav class="menu" aria-label="Navegação principal">
+            <th:block sec:authorize="isAuthenticated()">
+                <a sec:authorize="hasAnyRole('MEMBRO','GESTOR','ADMIN')" th:href="@{/area}"
+                   th:classappend="${#strings.startsWith(rotaAtual, '/area')} ? 'ativo'" th:text="#{nav.area}">Minha área</a>
+                <a sec:authorize="hasAnyRole('GESTOR','ADMIN')" th:href="@{/gestao}"
+                   th:classappend="${#strings.startsWith(rotaAtual, '/gestao')} ? 'ativo'" th:text="#{nav.gestao}">Gestão</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/contas}"
+                   th:classappend="${#strings.startsWith(rotaAtual, '/admin')} ? 'ativo'" th:text="#{nav.admin}">Administração</a>
+                <a th:href="@{/conta}"
+                   th:classappend="${rotaAtual == '/conta'} ? 'ativo'" th:text="#{nav.conta}">Minha conta</a>
+                <a th:href="@{/conta/sessoes}"
+                   th:classappend="${rotaAtual == '/conta/sessoes'} ? 'ativo'" th:text="#{nav.sessoes}">Sessões</a>
+            </th:block>
+        </nav>
+
+        <div class="topo__acoes">
+            <div th:replace="~{fragmentos/seletor-tema :: seletor}"></div>
+
+            <th:block sec:authorize="isAuthenticated()">
+                <span class="usuario">
+                    <span class="usuario__nome" sec:authentication="principal.primeiroNome">Fulano</span>
+                    <span class="selo" th:with="p=${#authentication.principal.papel}"
+                          th:classappend="'selo--' + ${#strings.toLowerCase(p)}"
+                          th:text="#{${'papel.' + p}}">Membro</span>
+                </span>
+                <form th:action="@{/sair}" method="post" class="inline">
+                    <button type="submit" class="botao botao--fantasma" th:text="#{nav.sair}">Sair</button>
+                </form>
+            </th:block>
+
+            <th:block sec:authorize="!isAuthenticated()">
+                <a class="botao botao--fantasma" th:href="@{/entrar}" th:text="#{nav.entrar}">Entrar</a>
+                <a class="botao" th:href="@{/cadastro}" th:text="#{nav.cadastro}">Criar conta</a>
+            </th:block>
+        </div>
+    </div>
+</header>
+</body>
+</html>

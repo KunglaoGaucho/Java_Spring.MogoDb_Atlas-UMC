@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Minha área</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <header class="cabecalho-pagina">
+        <p class="sobretitulo" th:text="#{${'papel.' + conta.papel}}">Membro</p>
+        <h1>Olá, <span th:text="${conta.nome}">Fulano</span></h1>
+        <p class="suave">Esta é a área comum a todos os perfis. No PFC, aqui entram as funcionalidades do usuário final.</p>
+    </header>
+    <div class="grade grade--3">
+        <article class="cartao metrica">
+            <span class="metrica__rotulo">Conta criada em</span>
+            <strong class="metrica__valor" th:text="${@datas.formatar(conta.criadaEm)}">—</strong>
+        </article>
+        <article class="cartao metrica">
+            <span class="metrica__rotulo">Último acesso</span>
+            <strong class="metrica__valor" th:text="${@datas.formatar(conta.ultimoAcesso)}">—</strong>
+        </article>
+        <article class="cartao metrica">
+            <span class="metrica__rotulo">Perfil</span>
+            <strong class="metrica__valor" th:text="#{${'papel.' + conta.papel}}">Membro</strong>
+        </article>
+    </div>
+    <div class="cartao">
+        <h2>Atalhos</h2>
+        <div class="acoes">
+            <a class="botao botao--fantasma" th:href="@{/conta}">Editar perfil e senha</a>
+            <a class="botao botao--fantasma" th:href="@{/conta/sessoes}">Ver sessões ativas</a>
+            <a sec:authorize="hasAnyRole('GESTOR','ADMIN')" class="botao botao--fantasma" th:href="@{/gestao}">Painel de gestão</a>
+            <a sec:authorize="hasRole('ADMIN')" class="botao botao--fantasma" th:href="@{/admin/contas}">Administração</a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* Tema "Aurora" — claro, índigo. Somente variáveis: veja assets/css/base.css. */
+:root {
+    color-scheme: light;
+    --fonte-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --fonte-titulo: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --fonte-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --raio-pequeno: 6px;
+    --raio: 10px;
+    --raio-grande: 16px;
+    --sombra: 0 1px 2px rgba(20, 22, 60, .04), 0 6px 20px rgba(20, 22, 60, .05);
+
+    --cor-fundo: #f5f6fb;
+    --cor-topo: rgba(255, 255, 255, .92);
+    --cor-superficie: #ffffff;
+    --cor-superficie-2: #eef0f7;
+    --cor-campo: #ffffff;
+    --cor-borda: #e3e6f0;
+    --cor-borda-forte: #cdd2e1;
+    --cor-texto: #171a2e;
+    --cor-texto-suave: #5b6079;
+    --cor-link: #4338ca;
+    --cor-foco: #818cf8;
+
+    --cor-primaria: #4f46e5;
+    --cor-primaria-forte: #3730a3;
+    --cor-primaria-suave: #e0e7ff;
+    --cor-sobre-primaria: #ffffff;
+
+    --cor-sucesso: #116b45;
+    --cor-sucesso-fundo: #dcf5e8;
+    --cor-perigo: #b42318;
+    --cor-perigo-forte: #8f1b12;
+    --cor-perigo-fundo: #fde7e5;
+
+    --cor-papel-admin: #8a1c4a;      --cor-papel-admin-fundo: #fbe2ee;
+    --cor-papel-gestor: #7a4b00;     --cor-papel-gestor-fundo: #fdf0d5;
+    --cor-papel-membro: #1d4f91;     --cor-papel-membro-fundo: #dfeafb;
+}

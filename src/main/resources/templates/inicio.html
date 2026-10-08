@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Início</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <div class="destaque">
+        <p class="sobretitulo">Autenticação e autorização</p>
+        <h1 th:text="${marca.nome}">Sentinela</h1>
+        <p class="destaque__texto" th:text="${marca.slogan}">Controle de acesso seguro</p>
+        <div class="acoes" sec:authorize="!isAuthenticated()">
+            <a class="botao botao--grande" th:href="@{/entrar}">Entrar</a>
+            <a class="botao botao--grande botao--fantasma" th:href="@{/cadastro}">Criar conta</a>
+        </div>
+        <div class="acoes" sec:authorize="isAuthenticated()">
+            <a class="botao botao--grande" th:href="@{/painel}">Ir para o meu painel</a>
+        </div>
+    </div>
+
+    <h2 class="titulo-secao">Perfis de acesso</h2>
+    <div class="grade grade--3">
+        <article class="cartao papel-cartao" th:each="p : ${papeis}">
+            <span class="selo" th:classappend="'selo--' + ${#strings.toLowerCase(p)}" th:text="#{${'papel.' + p}}">Papel</span>
+            <p th:text="#{${'papel.' + p + '.descricao'}}">Descrição</p>
+        </article>
+    </div>
+
+    <h2 class="titulo-secao">Como a segurança funciona</h2>
+    <ul class="lista-recursos">
+        <li><strong>Senhas com BCrypt</strong> (custo 12, via DelegatingPasswordEncoder) e política de senha forte.</li>
+        <li><strong>Bloqueio temporário</strong> após tentativas de login erradas seguidas.</li>
+        <li><strong>Sessões no MongoDB Atlas</strong>, com cookie HttpOnly e SameSite=Strict, e revogação pelo próprio usuário.</li>
+        <li><strong>Proteção CSRF</strong> em todos os formulários e cabeçalhos de segurança (CSP, frame-ancestors).</li>
+    </ul>
+</section>
+</body>
+</html>

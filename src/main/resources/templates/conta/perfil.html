@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Minha conta</title></head>
+<body>
+<section layout:fragment="conteudo">
+    <header class="cabecalho-pagina">
+        <p class="sobretitulo">Minha conta</p>
+        <h1 th:text="${conta.nome}">Nome</h1>
+        <p class="suave"><span th:text="${conta.email}">email</span> ·
+            <span class="selo" th:classappend="'selo--' + ${#strings.toLowerCase(conta.papel)}"
+                  th:text="#{${'papel.' + conta.papel}}">Papel</span></p>
+    </header>
+
+    <div class="grade grade--2">
+        <form th:action="@{/conta/perfil}" th:object="${perfilForm}" method="post" class="cartao formulario" novalidate>
+            <h2>Dados pessoais</h2>
+            <div th:replace="~{fragmentos/campos :: texto('nome', 'Nome completo', 'text', 'name')}"></div>
+            <div class="campo">
+                <label>E-mail</label>
+                <input type="email" th:value="${conta.email}" disabled>
+                <small class="suave">O e-mail é o identificador de login e não pode ser alterado.</small>
+            </div>
+            <button type="submit" class="botao">Salvar</button>
+        </form>
+
+        <form th:action="@{/conta/senha}" th:object="${senhaForm}" method="post" class="cartao formulario" novalidate>
+            <h2>Alterar senha</h2>
+            <div th:replace="~{fragmentos/campos :: senha('senhaAtual', 'Senha atual', 'current-password')}"></div>
+            <div th:replace="~{fragmentos/campos :: senha('novaSenha', 'Nova senha', 'new-password')}"></div>
+            <div th:replace="~{fragmentos/campos :: senha('confirmacaoNovaSenha', 'Confirme a nova senha', 'new-password')}"></div>
+            <button type="submit" class="botao">Alterar senha</button>
+            <small class="suave">Ao trocar a senha, as suas outras sessões abertas são encerradas.</small>
+        </form>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,98 @@
+# =====================================================================
+#  Sentinela Auth — configuração principal
+#  Nenhum segredo fica neste arquivo: tudo que é sensível vem de variáveis
+#  de ambiente (ou do arquivo .env local, que nunca é versionado).
+# =====================================================================
+
+spring:
+  application:
+    name: sentinela-auth
+  config:
+    # Lê um .env (formato chave=valor) na raiz do projeto, se existir.
+    import: optional:file:.env[.properties]
+  profiles:
+    default: dev
+
+  # --- MongoDB Atlas -------------------------------------------------
+  # A URI mongodb+srv:// do Atlas já negocia TLS por padrão.
+  # Formato esperado (ver .env.example):
+  #   mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/?retryWrites=true&w=majority&appName=sentinela
+  mongodb:
+    uri: ${MONGODB_URI}
+    database: ${MONGODB_DATABASE:sentinela}
+  data:
+    mongodb:
+      auto-index-creation: true
+
+  thymeleaf:
+    cache: true
+
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+server:
+  port: ${PORT:8080}
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: never
+
+# --- Parâmetros próprios da aplicação (ver SentinelaProperties) -------
+sentinela:
+  branding:
+    # Nome exibido no cabeçalho, título das páginas e rodapé.
+    nome: ${SENTINELA_NOME:Sentinela}
+    slogan: ${SENTINELA_SLOGAN:Controle de acesso seguro}
+  tema:
+    # Tema aplicado quando o visitante ainda não escolheu nenhum.
+    padrao: ${SENTINELA_TEMA:aurora}
+    # Temas oferecidos no seletor. Cada um precisa de static/themes/<id>/theme.css.
+    disponiveis:
+      - id: aurora
+        rotulo: Aurora (claro)
+      - id: noturno
+        rotulo: Noturno (escuro)
+      - id: contraste
+        rotulo: Alto contraste
+  seguranca:
+    # Tentativas erradas seguidas antes do bloqueio temporário da conta.
+    max-tentativas: ${SENTINELA_MAX_TENTATIVAS:5}
+    bloqueio-minutos: ${SENTINELA_BLOQUEIO_MINUTOS:15}
+    # Restringe o domínio de e-mail do cadastro público (vazio = qualquer).
+    dominio-cadastro: ${SENTINELA_DOMINIO_CADASTRO:}
+  sessao:
+    colecao: ${SENTINELA_SESSAO_COLECAO:http_sessions}
+    expira-minutos: ${SENTINELA_SESSAO_MINUTOS:30}
+    cookie-seguro: ${SENTINELA_COOKIE_SEGURO:false}
+  # Conta de administrador criada na primeira execução, se ainda não existir
+  # nenhum ADMIN no banco. Deixe a senha vazia para não criar.
+  admin-inicial:
+    nome: ${SENTINELA_ADMIN_NOME:Administrador}
+    email: ${SENTINELA_ADMIN_EMAIL:}
+    senha: ${SENTINELA_ADMIN_SENHA:}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  thymeleaf:
+    cache: false
+logging:
+  level:
+    dev.andrenovaes.sentinela: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+sentinela:
+  sessao:
+    cookie-seguro: true
+logging:
+  level:
+    root: WARN
+    dev.andrenovaes.sentinela: INFO

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Erro</title></head>
+<body>
+<section layout:fragment="conteudo" class="pagina-erro">
+    <p class="pagina-erro__codigo" th:text="${status}">500</p>
+    <h1>Algo deu errado</h1>
+    <p class="suave">Não foi possível concluir a operação. Tente novamente em instantes.</p>
+    <a class="botao" th:href="@{/}">Ir para o início</a>
+</section>
+</body>
+</html>

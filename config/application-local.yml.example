@@ -1,0 +1,20 @@
+# =====================================================================
+#  Configuração local alternativa ao .env
+#
+#  1. Copie para src/main/resources/application-local.yml (já está no .gitignore)
+#  2. Preencha os valores
+#  3. Rode com o perfil "local":  ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev,local
+# =====================================================================
+spring:
+  mongodb:
+    # Conexão segura com o Atlas:
+    #  - "mongodb+srv" resolve os nós do cluster via DNS e ativa TLS automaticamente;
+    #  - tls=true deixa isso explícito; authSource=admin é onde o Atlas guarda os usuários;
+    #  - retryWrites/w=majority garantem escrita confirmada pela maioria do replica set.
+    uri: mongodb+srv://USUARIO:SENHA@CLUSTER.xxxxx.mongodb.net/?tls=true&authSource=admin&retryWrites=true&w=majority&appName=sentinela
+    database: sentinela
+
+sentinela:
+  admin-inicial:
+    email: admin@exemplo.com
+    senha: TroqueEstaSenha#2026

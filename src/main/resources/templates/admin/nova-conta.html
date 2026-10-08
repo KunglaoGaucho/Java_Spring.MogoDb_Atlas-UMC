@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/base}">
+<head><title>Nova conta</title></head>
+<body>
+<section layout:fragment="conteudo" class="caixa-auth">
+    <p class="sobretitulo"><a th:href="@{/admin/contas}">← Contas</a></p>
+    <h1>Nova conta</h1>
+    <form th:action="@{/admin/contas/nova}" th:object="${form}" method="post" class="formulario" novalidate>
+        <div th:replace="~{fragmentos/campos :: texto('nome', 'Nome completo', 'text', 'off')}"></div>
+        <div th:replace="~{fragmentos/campos :: texto('email', 'E-mail', 'email', 'off')}"></div>
+        <div th:replace="~{fragmentos/campos :: senha('senha', 'Senha provisória', 'new-password')}"></div>
+        <div class="campo">
+            <label for="papel">Perfil</label>
+            <select th:field="*{papel}">
+                <option th:each="p : ${papeis}" th:value="${p}" th:text="#{${'papel.' + p}}">Papel</option>
+            </select>
+        </div>
+        <button type="submit" class="botao botao--largo">Criar conta</button>
+    </form>
+</section>
+</body>
+</html>

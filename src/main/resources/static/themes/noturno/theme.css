@@ -1,0 +1,39 @@
+/* Tema "Noturno" — escuro, verde-água. Somente variáveis. */
+:root {
+    color-scheme: dark;
+    --fonte-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --fonte-titulo: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --fonte-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --raio-pequeno: 6px;
+    --raio: 10px;
+    --raio-grande: 16px;
+    --sombra: 0 6px 24px rgba(0, 0, 0, .35);
+
+    --cor-fundo: #0e1116;
+    --cor-topo: rgba(17, 21, 28, .94);
+    --cor-superficie: #161b23;
+    --cor-superficie-2: #1f2630;
+    --cor-campo: #10151c;
+    --cor-borda: #262f3b;
+    --cor-borda-forte: #36414f;
+    --cor-texto: #e7ecf3;
+    --cor-texto-suave: #98a3b3;
+    --cor-link: #5eead4;
+    --cor-foco: #2dd4bf;
+
+    --cor-primaria: #14b8a6;
+    --cor-primaria-forte: #2dd4bf;
+    --cor-primaria-suave: rgba(20, 184, 166, .18);
+    --cor-sobre-primaria: #04201c;
+
+    --cor-sucesso: #6ee7a8;
+    --cor-sucesso-fundo: rgba(34, 197, 94, .14);
+    --cor-perigo: #fca5a5;
+    --cor-perigo-forte: #b91c1c;
+    --cor-perigo-fundo: rgba(239, 68, 68, .15);
+
+    --cor-papel-admin: #f9a8d4;      --cor-papel-admin-fundo: rgba(236, 72, 153, .16);
+    --cor-papel-gestor: #fcd34d;     --cor-papel-gestor-fundo: rgba(245, 158, 11, .16);
+    --cor-papel-membro: #93c5fd;     --cor-papel-membro-fundo: rgba(59, 130, 246, .16);
+}
+.botao--perigo { background: #dc2626; }
